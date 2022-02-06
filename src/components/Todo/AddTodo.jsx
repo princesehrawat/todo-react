@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
 import classes from "./AddTodo.module.css";
 
 const AddTodo = (props) => {
-  const [enteredTask, setEnteredTask] = useState("");
+  const textInputRef = useRef();
 
   const addTodoHandler = (event) => {
     event.preventDefault();
+    const enteredTask = textInputRef.current.value;
     props.onAdd(enteredTask);
-    setEnteredTask("");
-  };
-
-  const taskChangeHandler = (event) => {
-    setEnteredTask(event.target.value);
+    textInputRef.current.value = "";
   };
 
   return (
@@ -23,8 +20,8 @@ const AddTodo = (props) => {
         <input
           id="text"
           type="text"
-          value={enteredTask}
-          onChange={taskChangeHandler}
+          ref={textInputRef}
+          placeholder="Jot something down"
           required
         />
         <Button type="submit">Add Todo</Button>
